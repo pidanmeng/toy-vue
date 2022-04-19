@@ -16,4 +16,15 @@ describe('effect', () => {
     user.age++;
     expect(nextAge).toBe(12);
   });
+  it('should return runner when call effect', () => {
+    let foo = 10;
+    const runner = effect(() => {
+      foo++;
+      return 'bar';
+    });
+    expect(foo).toBe(11);
+    const res = runner();
+    expect(foo).toBe(12);
+    expect(res).toBe('bar');
+  })
 })
