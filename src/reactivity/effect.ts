@@ -43,10 +43,13 @@ function cleanupEffect(effect: ReactiveEffect) {
   effect.deps.forEach(dep => { 
     dep.delete(effect);
   })
+  effect.deps.length = 0;
 };
 
 const targetMap = new Map();
 export const track = (target, key) => {
+  if (!isTracking()) return;
+
   let depMap = targetMap.get(target);
   if (!depMap) {
     depMap = new Map();
@@ -58,11 +61,14 @@ export const track = (target, key) => {
     depMap.set(key, dep);
   }
 
-  if (!activeEffect) return;
-  if (!shouldTrack) return;
+  if (dep.has(activeEffect)) return;
 
   dep.add(activeEffect);
   activeEffect.deps.push(dep);
+}
+
+function isTracking() {
+  return shouldTrack && activeEffect;
 }
 
 export const effect = (fn, options: any = {}) => {
