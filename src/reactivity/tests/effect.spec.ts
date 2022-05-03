@@ -70,7 +70,7 @@ describe('effect', () => {
     expect(dummy).toBe(2);
 
     stop(runner);
-    object.prop = 3;
+    object.prop++;
     expect(dummy).toBe(2);
 
     runner();

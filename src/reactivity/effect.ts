@@ -1,5 +1,7 @@
 import { extend } from "../shared";
 
+let activeEffect: any = null;
+let shouldTrack: boolean = false;
 class ReactiveEffect {
   private _fn: any;
   private _scheduler: any;
@@ -12,7 +14,17 @@ class ReactiveEffect {
   }
 
   run() {
-    return this._fn();
+    activeEffect = this;
+    if (!this.active) {
+      return this._fn();
+    }
+
+    shouldTrack = true;
+    const result = this._fn();
+    shouldTrack = false;
+    activeEffect = null;
+
+    return result;
   }
 
   stop() {
@@ -47,16 +59,15 @@ export const track = (target, key) => {
   }
 
   if (!activeEffect) return;
+  if (!shouldTrack) return;
 
   dep.add(activeEffect);
   activeEffect.deps.push(dep);
 }
 
-let activeEffect: any = null;
 export const effect = (fn, options: any = {}) => {
   const effect = new ReactiveEffect(fn, options.scheduler);
   extend(effect, options);
-  activeEffect = effect;
   effect.run();
   const runner: any = effect.run.bind(effect);
   runner.effect = effect;
