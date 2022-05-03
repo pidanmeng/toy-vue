@@ -9,13 +9,4 @@ describe('reactive', () => {
     expect(observed).not.toBe(original);
     expect(observed.foo).toBe(1);
   });
-
-  // readonly
-  it('readonly', () => {
-    console.warn = jest.fn();
-    const original = { foo: 1 };
-    const readonlyObj = readonly(original);
-    readonlyObj.foo = 2;
-    expect(console.warn).toBeCalled();
-  })
 })
