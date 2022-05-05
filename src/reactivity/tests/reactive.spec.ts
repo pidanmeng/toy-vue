@@ -1,4 +1,4 @@
-import { reactive, isReactive } from "..";
+import { reactive, isReactive, isProxy } from "..";
 describe("reactive", () => {
   test("Object", () => {
     const original = { foo: 1 };
@@ -6,6 +6,7 @@ describe("reactive", () => {
     expect(observed).not.toBe(original);
     expect(isReactive(observed)).toBe(true);
     expect(isReactive(original)).toBe(false);
+    expect(isProxy(original)).toBe(false);
     // get
     expect(observed.foo).toBe(1);
     expect("foo" in observed).toBe(true);

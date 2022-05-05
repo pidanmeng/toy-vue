@@ -1,4 +1,4 @@
-import { isReadonly, readonly } from "../reactive";
+import { isProxy, isReadonly, readonly } from "../reactive";
 
 describe('readonly', () => {
   it('happy path', () => {
@@ -8,6 +8,7 @@ describe('readonly', () => {
     readonlyObj.foo = 2;
     expect(console.warn).toBeCalled();
     expect(isReadonly(readonlyObj)).toBe(true);
+    expect(isProxy(readonlyObj)).toBe(true);
     expect(isReadonly(original)).toBe(false);
   })
 })
