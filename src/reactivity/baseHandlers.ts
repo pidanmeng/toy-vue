@@ -19,7 +19,11 @@ function createGetter(isReadOnly: boolean = false, isShallow: boolean = false) {
 
     const res = Reflect.get(target, key);
 
-    if (isObject(res) && !isShallow) {
+    if (isShallow) {
+      return res;
+    }
+
+    if (isObject(res)) {
       return isReadOnly ? readonly(res) : reactive(res);
     }
 
