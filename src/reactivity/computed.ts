@@ -1,7 +1,6 @@
 import { trackEffect, ReactiveEffect, effect } from '.';
 
 class Computed {
-  private _dep = new Set();
   private _dirty: any = true;
   private _value: any;
   private _effect: ReactiveEffect;
@@ -10,7 +9,6 @@ class Computed {
     this._effect = new ReactiveEffect(getter, () => {
       this._dirty = true;
     });
-    trackEffect(this._dep);
   }
   get value() {
     if (this._dirty) {
@@ -18,6 +16,9 @@ class Computed {
       this._value = this._effect.run();
     }
     return this._value;
+  }
+  set value(_v: any) {
+    console.warn(`target: ${this} 无法修改, 因为target是computed`, this)
   }
 }
 
