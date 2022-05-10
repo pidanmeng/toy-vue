@@ -63,6 +63,11 @@ export const track = (target, key) => {
 
   if (dep.has(activeEffect)) return;
 
+  trackEffect(dep);
+}
+
+export const trackEffect = (dep) => {
+  if(!activeEffect) return;
   dep.add(activeEffect);
   activeEffect.deps.push(dep);
 }
@@ -81,8 +86,12 @@ export const effect = (fn, options: any = {}) => {
 };
 
 export const trigger = (target, key) => {
-  const deps = targetMap.get(target).get(key);
-  for (const effect of deps) {
+  const dep = targetMap.get(target).get(key);
+  triggerEffect(dep);
+}
+
+export const triggerEffect = (dep) => {
+  for (const effect of dep) {
     if (effect.scheduler) {
       effect.scheduler();
     } else {

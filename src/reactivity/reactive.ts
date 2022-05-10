@@ -3,6 +3,7 @@ import { multipleHandler, readonlyHandler, shallowReadonlyHandler } from './base
 export enum ReactiveFlags { 
   IS_READONLY = '__v_isReadOnly',
   IS_REACTIVE = '__v_isReactive',
+  IS_REF = '__v_isRef',
 }
 
 function createActiveObject(raw: any, baseHandlers) {
