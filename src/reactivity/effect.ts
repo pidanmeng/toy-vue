@@ -2,25 +2,21 @@ import { extend } from "../shared";
 
 let activeEffect: any = null;
 let shouldTrack: boolean = false;
-class ReactiveEffect {
-  private _fn: any;
-  private _scheduler: any;
+export class ReactiveEffect {
   deps: any[] = [];
   active: boolean = true;
   onStop?: () => void;
-  constructor(fn, public scheduler?) {
-    this._fn = fn;
-    this._scheduler = scheduler;
+  constructor(public fn, public scheduler?) {
   }
 
   run() {
     activeEffect = this;
     if (!this.active) {
-      return this._fn();
+      return this.fn();
     }
 
     shouldTrack = true;
-    const result = this._fn();
+    const result = this.fn();
     shouldTrack = false;
     activeEffect = null;
 
@@ -86,7 +82,9 @@ export const effect = (fn, options: any = {}) => {
 };
 
 export const trigger = (target, key) => {
-  const dep = targetMap.get(target).get(key);
+  const depsMap = targetMap.get(target);
+  if (!depsMap) return;
+  const dep = depsMap.get(key);
   triggerEffect(dep);
 }
 

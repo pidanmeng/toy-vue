@@ -30,7 +30,6 @@ describe("ref", () => {
       dummy = a.value.count;
     });
     expect(dummy).toBe(1);
-    console.log(a.value);
     a.value.count = 2;
     expect(dummy).toBe(2);
   });
