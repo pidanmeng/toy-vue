@@ -1,4 +1,4 @@
-import { trackEffect, ReactiveEffect, effect } from '.';
+import { ReactiveEffect } from '.';
 
 class Computed {
   private _dirty: any = true;
