@@ -1,4 +1,4 @@
-import { reactive, ReactiveFlags } from '.';
+import { reactive, ReactiveFlags } from './index';
 import { isObject } from '../shared';
 import { trackEffect, triggerEffect } from './effect';
 

@@ -1,7 +1,7 @@
 export function createComponentInstance(vNode) {
   const component = {
     vNode: vNode,
-    type: vNode.type,
+    type: vNode?.type,
     render: () => null,
   };
   return component;
